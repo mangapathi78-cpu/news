@@ -1,0 +1,1119 @@
+
+
+Skip to content
+Using Gmail with screen readers
+Conversations
+0% of 15 GB used
+Terms · Privacy · Program Policies
+Last account activity: 8 minutes ago
+Details
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub - Your Digital News Source</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: white;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Login Form */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-form h2 {
+            color: white;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            padding: 0;
+        }
+
+        .nav-item {
+            padding: 1rem 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            white-space: nowrap;
+            font-weight: 500;
+            position: relative;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .news-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInUp 0.6s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .news-image .category-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-title {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .category-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .category-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category-header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 2rem;
+        }
+
+        /* Article Detail Page */
+        .article-detail {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 800px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .article-hero {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .article-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 2rem;
+            color: white;
+        }
+
+        .article-category-tag {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .article-content {
+            padding: 2rem;
+            color: white;
+        }
+
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .article-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .article-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-body h3 {
+            color: white;
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem 0;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .related-articles {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .related-articles h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .related-card-content {
+            padding: 1rem;
+        }
+
+        .related-card h4 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .related-card .meta {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .login-form {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <form class="login-form" id="loginForm">
+            <h2>Welcome to NewsHub</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+            <p style="color: rgba(255,255,255,0.7); margin-top: 1rem; font-size: 0.9rem;">
+                Demo: Use any username and password to login
+            </p>
+        </form>
+    </div>
+
+    <!-- Main Website -->
+    <div id="mainSite" class="hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="#" class="logo">NewsHub</a>
+                    <div class="user-info">
+                        <span>Welcome, <span id="usernameDisplay"></span></span>
+                        <button class="logout-btn" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-container">
+                    <button class="nav-item active" onclick="showCategory('all')">All News</button>
+                    <button class="nav-item" onclick="showCategory('world')">World</button>
+                    <button class="nav-item" onclick="showCategory('technology')">Technology</button>
+                    <button class="nav-item" onclick="showCategory('business')">Business</button>
+                    <button class="nav-item" onclick="showCategory('sports')">Sports</button>
+                    <button class="nav-item" onclick="showCategory('entertainment')">Entertainment</button>
+                    <button class="nav-item" onclick="showCategory('health')">Health</button>
+                    <button class="nav-item" onclick="showCategory('science')">Science</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="category-header">
+                    <h1 id="categoryTitle">Latest News</h1>
+                    <p id="categoryDescription">Stay informed with the latest breaking news and updates</p>
+                </div>
+                <div id="newsContainer">
+                    <div class="loading">Loading news articles...</div>
+                </div>
+
+                <!-- Article Detail View -->
+                <div id="articleDetail" class="hidden">
+                    <button class="back-btn" onclick="showNewsList()">← Back to News</button>
+                    <div class="article-detail">
+                        <div class="article-hero">
+                            <img id="articleImage" src="" alt="">
+                            <div class="article-hero-overlay">
+                                <div class="article-category-tag" id="articleCategoryTag"></div>
+                                <h1 class="article-title" id="articleTitle"></h1>
+                                <div class="article-meta">
+                                    <span id="articleAuthor"></span>
+                                    <span id="articleTime"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <p class="article-excerpt" id="articleExcerpt"></p>
+                            <div class="article-body" id="articleBody"></div>
+                            <div class="related-articles">
+                                <h3>Related Articles</h3>
+                                <div class="related-grid" id="relatedArticles"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // User authentication state
+        let currentUser = null;
+        let currentCategory = 'all';
+        let currentArticle = null;
+
+        // Expanded article content
+        const fullArticleContent = {
+            "Global Climate Summit Reaches Historic Agreement": {
+                body: `
+                    <h3>Unprecedented Global Cooperation</h3>
+                    <p>World leaders from over 190 countries gathered in Geneva for what many are calling the most significant climate agreement since the Paris Accord. The three-day summit concluded with unanimous support for ambitious carbon reduction targets that exceed previous international commitments.</p>
+                    
+                    <p>The agreement establishes a comprehensive framework for reducing global greenhouse gas emissions by 50% by 2030, with developed nations committing to lead by example with even steeper reductions of up to 65%.</p>
+                    
+                    <h3>Key Provisions of the Agreement</h3>
+                    <p>The historic pact includes provisions for technology sharing, financial assistance to developing nations, and the establishment of a global carbon monitoring system. Participating countries will implement quarterly progress reviews and face economic incentives for meeting or exceeding their targets.</p>
+                    
+                    <p>Environmental scientists worldwide have praised the agreement as a crucial step toward preventing catastrophic climate change. Dr. Maria Rodriguez, lead climate researcher at the International Environmental Institute, stated that this level of cooperation represents a turning point in global environmental policy.</p>
+                    
+                    <h3>Implementation Timeline</h3>
+                    <p>The agreement will take effect immediately, with the first major milestone set for 2026. Countries must submit detailed implementation plans within six months, and a $500 billion fund has been established to support clean energy transitions in developing economies.</p>
+                `
+            },
+            "Revolutionary AI Breakthrough Changes Industry Standards": {
+                body: `
+                    <h3>Advancing Machine Intelligence</h3>
+                    <p>Researchers at the Advanced AI Research Institute have unveiled a groundbreaking machine learning algorithm that demonstrates unprecedented capabilities in complex problem-solving scenarios. The new system, dubbed "ContextNet," represents a significant leap forward in artificial intelligence development.</p>
+                    
+                    <p>Unlike previous AI models that required extensive training data, ContextNet can adapt to new situations with minimal input, showing human-like reasoning abilities that were previously thought impossible for artificial systems.</p>
+                    
+                    <h3>Industry Applications</h3>
+                    <p>The breakthrough has immediate applications across multiple industries, from healthcare diagnostics to financial analysis. Early testing shows the system can achieve 99.7% accuracy in medical image analysis, surpassing human specialists in speed while maintaining comparable precision.</p>
+                    
+                    <p>Tech giants have already expressed interest in licensing the technology, with several major corporations announcing partnerships to integrate ContextNet into their existing systems. The potential economic impact is estimated in the hundreds of billions of dollars globally.</p>
+                    
+                    <h3>Ethical Considerations</h3>
+                    <p>As with any major AI advancement, the development team has prioritized ethical implementation. Built-in safeguards prevent misuse, and an international ethics board will oversee the technology's deployment across sensitive applications.</p>
+                `
+            },
+            "Championship Final Delivers Thrilling Overtime Victory": {
+                body: `
+                    <h3>Historic Overtime Battle</h3>
+                    <p>In what will be remembered as one of the greatest championship finals in sports history, the underdog Phoenix Thunder defeated the defending champions in a heart-stopping overtime thriller. The game featured dramatic momentum shifts, spectacular individual performances, and a finish that had fans on their feet.</p>
+                    
+                    <p>With the score tied at 98-98 at the end of regulation, both teams entered overtime knowing that championship glory hung in the balance. The extra period featured five lead changes and several clutch plays that will be replayed for years to come.</p>
+                    
+                    <h3>Star Performances</h3>
+                    <p>Phoenix Thunder's captain, Alex Martinez, delivered a performance for the ages, scoring 15 points in the final quarter and overtime period. Martinez's three-pointer with 30 seconds remaining in overtime proved to be the game-winner, capping off a stellar playoff run.</p>
+                    
+                    <p>The victory marks the Thunder's first championship in franchise history and validates years of careful team building and strategic planning. Head coach Sarah Williams becomes the youngest coach ever to win a championship at age 34.</p>
+                    
+                    <h3>Celebration and Legacy</h3>
+                    <p>The victory celebration extended well into the night, with thousands of fans gathering in the city center to honor their new champions. The win is expected to have significant economic impact on the city, with championship merchandise and tourism revenue projected to boost the local economy by millions of dollars.</p>
+                `
+            }
+        };
+
+        // Function to generate full article content for any article
+        function generateArticleContent(title, category) {
+            if (fullArticleContent[title]) {
+                return fullArticleContent[title].body;
+            }
+            
+            // Generate content based on category
+            const categoryContent = {
+                "World": {
+                    intro: "This developing story continues to unfold on the global stage, with implications reaching across international borders.",
+                    sections: ["International Response", "Economic Implications", "Future Outlook"]
+                },
+                "Technology": {
+                    intro: "This technological advancement represents a significant step forward in innovation and digital transformation.",
+                    sections: ["Technical Details", "Industry Impact", "Future Development"]
+                },
+                "Business": {
+                    intro: "Market analysts are closely watching this development as it could signal broader trends in the business landscape.",
+                    sections: ["Market Analysis", "Competitive Landscape", "Investment Implications"]
+                },
+                "Sports": {
+                    intro: "This athletic achievement showcases the dedication and skill that defines competitive sports at the highest level.",
+                    sections: ["Performance Analysis", "Team Strategy", "Season Impact"]
+                },
+                "Entertainment": {
+                    intro: "The entertainment industry continues to evolve with this latest development capturing audience attention worldwide.",
+                    sections: ["Industry Response", "Audience Reception", "Cultural Impact"]
+                },
+                "Health": {
+                    intro: "Healthcare professionals are evaluating the implications of this development for patient care and medical practice.",
+                    sections: ["Medical Significance", "Clinical Applications", "Research Implications"]
+                },
+                "Science": {
+                    intro: "This scientific discovery adds to our understanding of the world and opens new avenues for research and exploration.",
+                    sections: ["Research Methods", "Scientific Implications", "Future Studies"]
+                }
+            };
+            
+            const content = categoryContent[category] || categoryContent["World"];
+            
+            return `
+                <p>${content.intro}</p>
+                <h3>${content.sections[0]}</h3>
+                <p>Experts in the field have provided detailed analysis of the situation, highlighting key factors that contribute to the significance of these developments. The comprehensive approach taken by stakeholders demonstrates a commitment to thorough understanding and strategic response.</p>
+                <p>Multiple sources confirm that the impact of these developments extends beyond immediate circumstances, potentially influencing long-term trends and policy decisions across related sectors.</p>
+                <h3>${content.sections[1]}</h3>
+                <p>Industry leaders have begun implementing adaptive strategies to respond to these changes, recognizing the importance of staying ahead of evolving conditions. The collaborative approach among key players suggests a coordinated effort to maximize positive outcomes.</p>
+                <p>Preliminary assessments indicate that stakeholders are well-positioned to navigate the challenges and opportunities presented by these developments, thanks to careful preparation and strategic planning.</p>
+                <h3>${content.sections[2]}</h3>
+                <p>Looking ahead, continued monitoring and analysis will be essential to understand the full scope of impact. Experts predict that additional developments may emerge in the coming weeks, requiring ongoing attention and potential adjustments to current strategies.</p>
+            `;
+        }
+
+        // Sample news data with images
+        const newsData = {
+            world: [
+                {
+                    title: "Global Climate Summit Reaches Historic Agreement",
+                    excerpt: "World leaders unite on ambitious carbon reduction targets for the next decade...",
+                    author: "Sarah Johnson",
+                    time: "2 hours ago",
+                    category: "World",
+                    image: "https://picsum.photos/400/200?random=1"
+                },
+                {
+                    title: "International Trade Relations Show Signs of Recovery",
+                    excerpt: "Economic experts report positive trends in global commerce following recent negotiations...",
+                    author: "Michael Chen",
+                    time: "4 hours ago",
+                    category: "World",
+                    image: "https://picsum.photos/400/200?random=2"
+                },
+                {
+                    title: "Diplomatic Breakthrough in Regional Conflict",
+                    excerpt: "Peace talks show promising results as mediators facilitate historic dialogue...",
+                    author: "Emma Rodriguez",
+                    time: "6 hours ago",
+                    category: "World",
+                    image: "https://picsum.photos/400/200?random=3"
+                }
+            ],
+            technology: [
+                {
+                    title: "Revolutionary AI Breakthrough Changes Industry Standards",
+                    excerpt: "New machine learning algorithm achieves unprecedented accuracy in complex problem solving...",
+                    author: "Alex Thompson",
+                    time: "1 hour ago",
+                    category: "Technology",
+                    image: "https://picsum.photos/400/200?random=4"
+                },
+                {
+                    title: "Quantum Computing Milestone Reached by Research Team",
+                    excerpt: "Scientists demonstrate practical quantum advantage in real-world applications...",
+                    author: "Dr. Lisa Wang",
+                    time: "3 hours ago",
+                    category: "Technology",
+                    image: "https://picsum.photos/400/200?random=5"
+                },
+                {
+                    title: "Cybersecurity Innovations Protect Digital Infrastructure",
+                    excerpt: "Advanced encryption methods provide enhanced protection against emerging threats...",
+                    author: "David Park",
+                    time: "5 hours ago",
+                    category: "Technology",
+                    image: "https://picsum.photos/400/200?random=6"
+                }
+            ],
+            business: [
+                {
+                    title: "Market Rally Continues with Record-Breaking Performance",
+                    excerpt: "Stock indices reach new heights as investor confidence strengthens across sectors...",
+                    author: "Jennifer Adams",
+                    time: "1 hour ago",
+                    category: "Business",
+                    image: "https://picsum.photos/400/200?random=7"
+                },
+                {
+                    title: "Startup Ecosystem Thrives with Record Funding Levels",
+                    excerpt: "Venture capital investments surge as innovative companies attract significant backing...",
+                    author: "Robert Kim",
+                    time: "3 hours ago",
+                    category: "Business",
+                    image: "https://picsum.photos/400/200?random=8"
+                },
+                {
+                    title: "Corporate Sustainability Initiatives Drive Market Growth",
+                    excerpt: "Companies embracing environmental responsibility see improved financial performance...",
+                    author: "Maria Santos",
+                    time: "5 hours ago",
+                    category: "Business",
+                    image: "https://picsum.photos/400/200?random=9"
+                }
+            ],
+            sports: [
+                {
+                    title: "Championship Final Delivers Thrilling Overtime Victory",
+                    excerpt: "Spectacular performance in overtime secures victory in one of the most exciting finals ever...",
+                    author: "Tom Wilson",
+                    time: "30 minutes ago",
+                    category: "Sports",
+                    image: "https://picsum.photos/400/200?random=10"
+                },
+                {
+                    title: "Olympic Preparations Showcase Athletes' Dedication",
+                    excerpt: "Training facilities buzz with activity as competitors prepare for upcoming games...",
+                    author: "Rachel Green",
+                    time: "2 hours ago",
+                    category: "Sports",
+                    image: "https://picsum.photos/400/200?random=11"
+                },
+                {
+                    title: "Record-Breaking Performance Stuns Sporting World",
+                    excerpt: "Athletic achievement surpasses all previous records in historic competition...",
+                    author: "James Miller",
+                    time: "4 hours ago",
+                    category: "Sports",
+                    image: "https://picsum.photos/400/200?random=12"
+                }
+            ],
+            entertainment: [
+                {
+                    title: "Film Festival Celebrates Outstanding Cinematic Achievements",
+                    excerpt: "Independent filmmakers receive recognition for innovative storytelling and visual artistry...",
+                    author: "Sophie Davis",
+                    time: "1 hour ago",
+                    category: "Entertainment",
+                    image: "https://picsum.photos/400/200?random=13"
+                },
+                {
+                    title: "Music Industry Embraces New Digital Platforms",
+                    excerpt: "Artists find creative ways to connect with audiences through emerging technologies...",
+                    author: "Carlos Martinez",
+                    time: "3 hours ago",
+                    category: "Entertainment",
+                    image: "https://picsum.photos/400/200?random=14"
+                },
+                {
+                    title: "Television Series Breaks Viewership Records",
+                    excerpt: "Streaming platform content captures global audience attention with compelling narratives...",
+                    author: "Anna Taylor",
+                    time: "5 hours ago",
+                    category: "Entertainment",
+                    image: "https://picsum.photos/400/200?random=15"
+                }
+            ],
+            health: [
+                {
+                    title: "Medical Research Breakthrough Offers New Treatment Hope",
+                    excerpt: "Clinical trials show promising results for innovative therapy approaches...",
+                    author: "Dr. Patricia Brown",
+                    time: "2 hours ago",
+                    category: "Health",
+                    image: "https://picsum.photos/400/200?random=16"
+                },
+                {
+                    title: "Public Health Campaign Shows Positive Community Impact",
+                    excerpt: "Preventive care initiatives demonstrate measurable improvements in population wellness...",
+                    author: "Dr. Kevin Lee",
+                    time: "4 hours ago",
+                    category: "Health",
+                    image: "https://picsum.photos/400/200?random=17"
+                },
+                {
+                    title: "Mental Health Awareness Drives Policy Changes",
+                    excerpt: "Legislative support increases for comprehensive mental health care programs...",
+                    author: "Dr. Amanda Foster",
+                    time: "6 hours ago",
+                    category: "Health",
+                    image: "https://picsum.photos/400/200?random=18"
+                }
+            ],
+            science: [
+                {
+                    title: "Space Exploration Mission Reveals Fascinating Discoveries",
+                    excerpt: "Deep space probe transmits unprecedented data about distant planetary systems...",
+                    author: "Dr. Richard Stone",
+                    time: "1 hour ago",
+                    category: "Science",
+                    image: "https://picsum.photos/400/200?random=19"
+                },
+                {
+                    title: "Environmental Research Provides Climate Solutions",
+                    excerpt: "Scientific innovations offer practical approaches to environmental challenges...",
+                    author: "Dr. Helen Cooper",
+                    time: "3 hours ago",
+                    category: "Science",
+                    image: "https://picsum.photos/400/200?random=20"
+                },
+                {
+                    title: "Archaeological Find Rewrites Historical Understanding",
+                    excerpt: "Ancient artifacts provide new insights into early human civilization development...",
+                    author: "Dr. Mark Johnson",
+                    time: "5 hours ago",
+                    category: "Science",
+                    image: "https://picsum.photos/400/200?random=21"
+                }
+            ]
+        };
+
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                currentUser = username;
+                document.getElementById('usernameDisplay').textContent = username;
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainSite').classList.remove('hidden');
+                loadNews();
+            }
+        });
+
+        // Logout functionality
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainSite').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Category navigation
+        function showCategory(category) {
+            currentCategory = category;
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update category header
+            const categoryTitles = {
+                all: { title: 'Latest News', desc: 'Stay informed with the latest breaking news and updates' },
+                world: { title: 'World News', desc: 'Global events and international developments' },
+                technology: { title: 'Technology', desc: 'Innovation, gadgets, and digital transformation' },
+                business: { title: 'Business', desc: 'Markets, finance, and economic insights' },
+                sports: { title: 'Sports', desc: 'Athletic achievements and sporting events' },
+                entertainment: { title: 'Entertainment', desc: 'Movies, music, and pop culture' },
+                health: { title: 'Health', desc: 'Medical breakthroughs and wellness news' },
+                science: { title: 'Science', desc: 'Research discoveries and scientific advances' }
+            };
+            
+            document.getElementById('categoryTitle').textContent = categoryTitles[category].title;
+            document.getElementById('categoryDescription').textContent = categoryTitles[category].desc;
+            
+            loadNews();
+        }
+
+        // Load news articles
+        function loadNews() {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = '<div class="loading">Loading news articles...</div>';
+            
+            setTimeout(() => {
+                let articles = [];
+                
+                if (currentCategory === 'all') {
+                    // Show articles from all categories
+                    Object.keys(newsData).forEach(category => {
+                        articles = articles.concat(newsData[category]);
+                    });
+                    // Shuffle articles for variety
+                    articles = articles.sort(() => Math.random() - 0.5);
+                } else {
+                    articles = newsData[currentCategory] || [];
+                }
+                
+                const newsGrid = document.createElement('div');
+                newsGrid.className = 'news-grid';
+                
+                articles.forEach((article, index) => {
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'news-card';
+                    newsCard.style.animationDelay = `${index * 0.1}s`;
+                    newsCard.style.cursor = 'pointer';
+                    
+                    newsCard.innerHTML = `
+                        <div class="news-image">
+                            <img src="${article.image}" alt="${article.title}" loading="lazy">
+                            <div class="category-badge">${article.category}</div>
+                        </div>
+                        <div class="news-content">
+                            <h3 class="news-title">${article.title}</h3>
+                            <p class="news-excerpt">${article.excerpt}</p>
+                            <div class="news-meta">
+                                <span>By ${article.author}</span>
+                                <span>${article.time}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to open full article
+                    newsCard.addEventListener('click', () => {
+                        showArticleDetail(article);
+                    });
+                    
+                    newsGrid.appendChild(newsCard);
+                });
+                
+                container.innerHTML = '';
+                container.appendChild(newsGrid);
+            }, 800);
+        }
+
+        // Show article detail page
+        function showArticleDetail(article) {
+            currentArticle = article;
+            
+            // Hide news list and show article detail
+            document.getElementById('newsContainer').classList.add('hidden');
+            document.getElementById('articleDetail').classList.remove('hidden');
+            
+            // Populate article details
+            document.getElementById('articleImage').src = article.image;
+            document.getElementById('articleImage').alt = article.title;
+            document.getElementById('articleCategoryTag').textContent = article.category;
+            document.getElementById('articleTitle').textContent = article.title;
+            document.getElementById('articleAuthor').textContent = `By ${article.author}`;
+            document.getElementById('articleTime').textContent = article.time;
+            document.getElementById('articleExcerpt').textContent = article.excerpt;
+            document.getElementById('articleBody').innerHTML = generateArticleContent(article.title, article.category);
+            
+            // Load related articles
+            loadRelatedArticles(article);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show news list (back from article detail)
+        function showNewsList() {
+            document.getElementById('articleDetail').classList.add('hidden');
+            document.getElementById('newsContainer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load related articles
+        function loadRelatedArticles(currentArticle) {
+            const relatedContainer = document.getElementById('relatedArticles');
+            const categoryArticles = newsData[currentArticle.category.toLowerCase()] || [];
+            
+            // Get related articles (exclude current article)
+            const related = categoryArticles.filter(article => article.title !== currentArticle.title);
+            
+            // If not enough related articles in same category, add from other categories
+            if (related.length < 3) {
+                Object.keys(newsData).forEach(category => {
+                    if (related.length < 3 && category !== currentArticle.category.toLowerCase()) {
+                        newsData[category].forEach(article => {
+                            if (related.length < 3 && article.title !== currentArticle.title) {
+                                related.push(article);
+                            }
+                        });
+                    }
+                });
+            }
+            
+            relatedContainer.innerHTML = '';
+            
+            related.slice(0, 3).forEach(article => {
+                const relatedCard = document.createElement('div');
+                relatedCard.className = 'related-card';
+                relatedCard.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}">
+                    <div class="related-card-content">
+                        <h4>${article.title}</h4>
+                        <div class="meta">${article.author} • ${article.time}</div>
+                    </div>
+                `;
+                
+                relatedCard.addEventListener('click', () => {
+                    showArticleDetail(article);
+                });
+                
+                relatedContainer.appendChild(relatedCard);
+            });
+        }
+
+        // Initialize
+        if (currentUser) {
+            loadNews();
+        }
+    </script>
+</body>
+</html>
+news_website (2).html
+Displaying news_website (2).html.
